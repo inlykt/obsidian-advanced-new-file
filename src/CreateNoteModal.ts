@@ -157,6 +157,11 @@ export default class CreateNoteModal extends Modal {
         // If the file already exists, respond with error
         throw new Error(`${filePath} already exists`);
       }
+      const fileNameExists = vault.getFiles().map(i => i.basename).includes(name);
+      if (fileNameExists) {
+        // If the file name already exists anywhere in the vault, respond with error
+        throw new Error(`The name "${name}" already exists`);
+      }
       if (dir !== '') {
         // If `input` includes a directory part, create it
         await this.createDirectory(dir);
